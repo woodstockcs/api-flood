@@ -1,4 +1,5 @@
 import express from "express";
+import Post from "../models/Post.js";
 
 const router = express.Router();
 
@@ -35,7 +36,7 @@ const addPost = async (req, res) => {
 };
 
 // register the routes
-router.get("/getPosts", getPosts);
+router.get("/posts", getPosts);
 router.post("/addPost", addPost);
 
 export default router;
