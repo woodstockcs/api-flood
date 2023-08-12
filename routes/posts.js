@@ -35,8 +35,25 @@ const addPost = async (req, res) => {
   }
 };
 
+// delete a post
+const deletePost = async (req, res) => {
+  const postTitle = req.params.title;
+  try {
+    // Find the post by title and delete it
+    const deletedPost = await Post.findOneAndDelete({ title: postTitle });
+    if (!deletedPost) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+    res.json({ message: "Post deleted successfully", deletedPost });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
 // register the routes
 router.get("/posts", getPosts);
 router.post("/addPost", addPost);
+router.delete("/posts/:title", deletePost); // Assuming you will use "/posts/:title" to delete a post
 
 export default router;
