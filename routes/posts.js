@@ -14,10 +14,21 @@ const getPosts = async (req, res) => {
   }
 };
 
+// get a specific post
+const getOnePost = async (req, res) => {
+  const postTitle = req.params.title;
+  try {
+    const posts = await Post.findOne({title: postTitle});
+    res.json(posts);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
 // use the Post model to add new posts
 const addPost = async (req, res) => {
   const { name, state, town, title, issue, contactInfo } = req.body;
-
   try {
     const newPost = new Post({
       name,
@@ -52,8 +63,9 @@ const deletePost = async (req, res) => {
 };
 
 // register the routes
-router.get("/posts", getPosts);
+router.get("/posts/:title", getOnePost)
 router.post("/addPost", addPost);
 router.delete("/posts/:title", deletePost); // Assuming you will use "/posts/:title" to delete a post
+router.get("/posts", getPosts); // most general last
 
 export default router;
