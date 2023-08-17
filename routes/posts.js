@@ -48,10 +48,10 @@ const addPost = async (req, res) => {
 
 // delete a post
 const deletePost = async (req, res) => {
-  const postTitle = req.params.title;
+  const date = req.params.dateCreated;
   try {
     // Find the post by title and delete it
-    const deletedPost = await Post.findOneAndDelete({ title: postTitle });
+    const deletedPost = await Post.findOneAndDelete({ dateCreated: date });
     if (!deletedPost) {
       return res.status(404).json({ message: "Post not found" });
     }
@@ -63,9 +63,9 @@ const deletePost = async (req, res) => {
 };
 
 // register the routes
-router.get("/posts/:title", getOnePost)
 router.post("/addPost", addPost);
-router.delete("/posts/:title", deletePost); // Assuming you will use "/posts/:title" to delete a post
+router.delete("/posts/delete/:dateCreated", deletePost); // Assuming you will use "/posts/delete/:title" to delete a post
+router.get("/posts/:title", getOnePost)
 router.get("/posts", getPosts); // most general last
 
 export default router;
